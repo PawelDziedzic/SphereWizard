@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4937030580610481364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4937030580610481366}
+  - component: {fileID: 4937030580610481365}
+  m_Layer: 0
+  m_Name: OrbPrefabManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4937030580610481366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4937030580610481364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4937030580610481365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4937030580610481364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7375528848852c74ba0392d3e2fd9457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  providerStationaryF: {fileID: 4353998856117646329, guid: 9409b51f2f22cbb44b3842013babc5a7,
+    type: 3}
+  providerStationaryL: {fileID: 3162853666064758843, guid: 93c414b648afe6e438c3a0c1631f27cb,
+    type: 3}
+  providerSentF: {fileID: 7654545911030537460, guid: 5cfe68571d241a94d88f470e973d86f8,
+    type: 3}
+  providerSentL: {fileID: 2732151374736897394, guid: 579a394decad10849b9fe86065dc5275,
+    type: 3}
+  playerHeldF: {fileID: 4353998856117646329, guid: 9409b51f2f22cbb44b3842013babc5a7,
+    type: 3}
+  playerHeldL: {fileID: 3162853666064758843, guid: 93c414b648afe6e438c3a0c1631f27cb,
+    type: 3}
+  playerShotF: {fileID: 2896425807908448872, guid: 5d5c7627d43e1f9479ef174cb0d62d74,
+    type: 3}
+  playerShotL: {fileID: 4813550429930020042, guid: c4954b9a2198f084fbde8dd45d4e0c15,
+    type: 3}
+  extraSpawnedF: {fileID: 0}
+  extraSpawnedL: {fileID: 0}
+  extraShotF: {fileID: 0}
+  extraShotL: {fileID: 0}
