@@ -19,7 +19,7 @@ public class ProtoPlayerScript : MonoBehaviour
     float strafeRate;
 
     public float fallRate = 0.5f;
-    public int HP = 10;
+    public int HP = 3;
 
     private Vector3 movementVector;
 
@@ -108,14 +108,16 @@ public class ProtoPlayerScript : MonoBehaviour
         }
     }
 
-    void receiveDamage(int dmg)
+    void receiveDamage(AnAttack at)
     {
-        HP -= dmg;
+        Debug.Log("Hazard, on!");
+        myRB.AddForce(10*at.velocity, ForceMode.VelocityChange);
+        HP -= at.damage;
         if (HP <= 0)
             Destroy(gameObject);
     }
 
-    void OnCollisionEnter(Collision col)
+    /*void OnCollisionEnter(Collision col)
     {
         if(col.collider.tag=="hazard")
         {
@@ -125,7 +127,7 @@ public class ProtoPlayerScript : MonoBehaviour
                 GameOver();
 
         }
-    }
+    }*/
 
     void GameOver()
     {

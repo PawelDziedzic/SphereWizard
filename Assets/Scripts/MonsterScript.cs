@@ -31,7 +31,7 @@ public class MonsterScript : MonoBehaviour
     public void beginChase()
     {
 
-        paw1.transform.Translate(transform.up * -2);
+        paw1.transform.Translate(transform.forward * -2);
         chaseScript.enabled = true;
         idle2.enabled = true;
         idle1.enabled = true;
@@ -39,7 +39,7 @@ public class MonsterScript : MonoBehaviour
 
     public void attack()
     {
-        paw1.transform.Translate(transform.up*2);
+        paw1.transform.Translate(transform.forward*2);
         chaseScript.enabled = false;
         idle1.enabled = false;
         idle2.enabled = false;
@@ -60,5 +60,14 @@ public class MonsterScript : MonoBehaviour
     protected void RemoveSelf()
     {
         Destroy(gameObject);
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.collider.tag == "Player")
+        {
+            Vector3 vel = myRB.velocity - col.collider.attachedRigidbody.velocity;
+            col.collider.SendMessage("receiveDamage", new AnAttack(1, vel, 0));
+        }
     }
 }
