@@ -18,7 +18,7 @@ public class ProtoPlayerScript : MonoBehaviour
     public float strafespeed = 50.0f;
     float strafeRate;
 
-    public float fallRate = 0.5f;
+    public float fallRate;
     public int HP = 3;
 
     private Vector3 movementVector;
@@ -27,24 +27,28 @@ public class ProtoPlayerScript : MonoBehaviour
     protected GameObject stationaryOrb;
     protected GameObject shotOrb;
 
-    // Start is called before the first frame update
-    void Start()
+    private Ray gravityRay;
+
+    void OnEnable()
     {
         instance = this;
-        myRB = GetComponent<Rigidbody>();
         natureOfOrb = 10;
         orbPoint = new Vector3(transform.GetChild(0).transform.position.x,
                                 transform.position.y,
                                 transform.GetChild(0).transform.position.z);
-        Debug.Log(transform.GetChild(0).transform.name);
+
+        myRB = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        myRB.velocity = Vector3.zero;
+        //myRB.velocity = Vector3.zero;
+        myRB.velocity.Set(0.0f, myRB.velocity.y, 0.0f);
+
         orbPoint = transform.GetChild(0).transform.position - transform.GetChild(0).transform.forward *
             (transform.GetChild(0).transform.localPosition.z+0.5f);
         Debug.DrawRay(orbPoint, transform.GetChild(0).transform.forward * 20f, Color.white);
+
         if (Input.GetButtonDown("Fire1"))
         {
             if (natureOfOrb == 10)
@@ -74,13 +78,18 @@ public class ProtoPlayerScript : MonoBehaviour
         movementVector = (transform.right*strafeRate + transform.forward*movementRate).normalized*movementspeed;
 
         //transform.Translate(strafeRate, 0, movementRate);
-        myRB.AddForce(movementVector, ForceMode.VelocityChange);
+        myRB.AddForce(movementVector, ForceMode.Acceleration);
         transform.Rotate(0, rotationRate, 0);
     }
 
     void FixedUpdate()
     {
-        myRB.AddForce(new Vector3(0f, -1f*fallRate, 0f), ForceMode.VelocityChange);
+        gravityRay = new Ray(transform.position, Vector3.down);
+        Physics.SphereCast(gravityRay, 1, 1.6f);
+        if (!Physics.SphereCast(gravityRay, 1, 0.6f))
+        {
+            myRB.AddForce(new Vector3(0f, -1f * fallRate, 0f), ForceMode.Acceleration);
+        }
     }
 
     void Throw()
@@ -116,18 +125,6 @@ public class ProtoPlayerScript : MonoBehaviour
         if (HP <= 0)
             Destroy(gameObject);
     }
-
-    /*void OnCollisionEnter(Collision col)
-    {
-        if(col.collider.tag=="hazard")
-        {
-            --HP;
-            Debug.Log("Hazard, on!");
-            if (HP <= 0)
-                GameOver();
-
-        }
-    }*/
 
     void GameOver()
     {
