@@ -20,6 +20,7 @@ public class AlphaPlayerScript : MonoBehaviour
     public float jumpStrength;
 
     private Vector3 proxyPosition;
+    protected Vector3 movementVector;
 
     public float rotationSpeed = 100.0f;
     float rotationRate;
@@ -41,6 +42,8 @@ public class AlphaPlayerScript : MonoBehaviour
 
     void Update()
     {
+        ClearRequests();
+
         //jump request DONE
         RequestJump();
         //shot request DONE
@@ -53,6 +56,25 @@ public class AlphaPlayerScript : MonoBehaviour
         RequestStrafe();
         //Turn request DONE
         RequestTurn();
+
+        //turn execution DONE
+        ApplyRotation();
+
+        //jump execution WIP
+        if (isGrounded)
+            ExecuteJump();
+
+        //catch execution
+    }
+
+    void ClearRequests()
+    {
+        willMove = false;
+        willStrafe = false;
+        willThrow = false;
+        willTurn = false;
+        willJump = false;
+        willCatch = false;
     }
 
     void RequestShot()
@@ -108,20 +130,15 @@ public class AlphaPlayerScript : MonoBehaviour
         //apply gravity(cond) DONE
         if (!isGrounded)
             ApplyGravity();
-        else
-        {
-            ExecuteJump();
-        }
-        //jump execution
-
 
 
         //move execution
-        if(willMove || willStrafe)
+        if (willMove || willStrafe)
         {
             ApplyMovement();
         }
-        //turn execution
+
+        //apply inertia
     }
 
     void CheckForGround()
@@ -129,7 +146,6 @@ public class AlphaPlayerScript : MonoBehaviour
         if(Physics.SphereCast(transform.position,castRadius,Vector3.down,out groundHit, groundHitHeight))
         {
             isGrounded = true;
-            //HERE LEVEL THEN OBJECT
             proxyPosition = transform.position;
             proxyPosition[1] = groundHit.point[1] + 1f;
             transform.position = proxyPosition;
@@ -148,7 +164,13 @@ public class AlphaPlayerScript : MonoBehaviour
 
     void ApplyMovement()
     {
+        movementVector = (transform.right * strafeRate + transform.forward * movementRate).normalized * movementspeed;
+        myRB.AddForce(movementVector, ForceMode.Acceleration);
+    }
 
+    void ApplyRotation()
+    {
+        transform.Rotate(0, rotationRate, 0);
     }
 
     void ExecuteJump()

@@ -20,6 +20,7 @@ public class ProtoPlayerScript : MonoBehaviour
 
     public float fallRate;
     public int HP = 3;
+    RaycastHit groundHit;
 
     private Vector3 movementVector;
 
@@ -30,6 +31,17 @@ public class ProtoPlayerScript : MonoBehaviour
     private Ray gravityRay;
 
     void OnEnable()
+    {
+        instance = this;
+        natureOfOrb = 10;
+        orbPoint = new Vector3(transform.GetChild(0).transform.position.x,
+                                transform.position.y,
+                                transform.GetChild(0).transform.position.z);
+
+        myRB = GetComponent<Rigidbody>();
+    }
+
+    void Start()
     {
         instance = this;
         natureOfOrb = 10;
@@ -85,10 +97,13 @@ public class ProtoPlayerScript : MonoBehaviour
     void FixedUpdate()
     {
         gravityRay = new Ray(transform.position, Vector3.down);
-        Physics.SphereCast(gravityRay, 1, 1.6f);
-        if (!Physics.SphereCast(gravityRay, 1, 0.6f))
+        Debug.DrawRay(transform.position, Vector3.down, Color.blue);
+        
+        if (!Physics.SphereCast(transform.position, 1f, Vector3.down, out groundHit, 0.6f))
         {
-            myRB.AddForce(new Vector3(0f, -1f * fallRate, 0f), ForceMode.Acceleration);
+            Debug.DrawLine(transform.position, groundHit.point);
+            Debug.DrawRay(groundHit.point, Vector3.up, Color.green, 0.6f);
+            myRB.AddForce(new Vector3(0f, -1f * fallRate, 0f), ForceMode.VelocityChange);
         }
     }
 
